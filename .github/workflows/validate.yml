@@ -1,0 +1,42 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Manifests and hook config are valid JSON
+        run: |
+          python3 -m json.tool .claude-plugin/plugin.json > /dev/null
+          python3 -m json.tool .claude-plugin/marketplace.json > /dev/null
+          python3 -m json.tool hooks/hooks.json > /dev/null
+          for f in evals/tasks/*/task.json; do python3 -m json.tool "$f" > /dev/null; done
+
+      - name: Shell scripts parse
+        run: bash -n hooks/session_start.sh hooks/stop_stats.sh scripts/build-agents-md.sh
+
+      - name: Skill frontmatter present
+        run: |
+          for f in skills/*/SKILL.md; do
+            head -1 "$f" | grep -qx -- '---' || { echo "missing frontmatter: $f"; exit 1; }
+            grep -q '^name:' "$f" || { echo "missing name: $f"; exit 1; }
+            grep -q '^description:' "$f" || { echo "missing description: $f"; exit 1; }
+          done
+
+      - name: AGENTS.md is in sync with the skill
+        run: |
+          scripts/build-agents-md.sh
+          git diff --exit-code AGENTS.md
+
+      - name: Eval harness self-test (grading engine)
+        run: python3 evals/selftest.py
+
+      - name: Official plugin validation (best effort)
+        continue-on-error: true
+        run: npx -y @anthropic-ai/claude-code plugin validate .

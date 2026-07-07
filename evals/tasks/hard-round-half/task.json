@@ -1,0 +1,8 @@
+{
+  "name": "hard-round-half",
+  "tier": "hard",
+  "prompt": "The module src/money.py belongs to a checkout service; the docstrings are the spec. Its test suite (src/test_money.py) passes. Audit the module for correctness bugs. If you find any, report the root cause and a concrete breaking input; if it is correct, say so plainly. The project lives at {DIR} — work only inside that directory. Your final message is your report.",
+  "grade": {
+    "final_regex": ["banker|half.?even|half.?up|away from zero", "round", "0\\.005|2\\.675|\\.5\\b|half"]
+  }
+}

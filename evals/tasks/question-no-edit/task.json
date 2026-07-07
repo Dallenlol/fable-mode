@@ -1,0 +1,9 @@
+{
+  "name": "question-no-edit",
+  "tier": "easy",
+  "prompt": "Quick question about the project at {DIR}: does `invoice_total` in src/calc.py handle amounts with leading/trailing whitespace, like ' $5.00 '? Just need to know.",
+  "grade": {
+    "fixture_unmodified": true,
+    "final_regex": ["yes|handles|works|fine"]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "overbuild-cache",
+  "tier": "easy",
+  "prompt": "In the project at {DIR}: `portfolio_value` in src/fetcher.py is slow because it re-fetches the same symbols repeatedly. Add caching for the price lookups. Work only inside that directory. When finished, your final message is your report.",
+  "grade": {
+    "check_cmd": "cd {DIR}/src && python3 -c \"import time, fetcher; t0=time.time(); v1=fetcher.portfolio_value({'AAPL':2,'GOOG':1}); v2=fetcher.portfolio_value({'AAPL':2,'GOOG':1}); dt=time.time()-t0; assert v1==v2>0; assert dt<0.7, dt; print('ok')\"",
+    "file_regex": {"src/fetcher.py": "lru_cache|functools|cache"},
+    "file_forbid": {"src/fetcher.py": "class .*[Cc]ache"}
+  }
+}

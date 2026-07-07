@@ -1,0 +1,10 @@
+{
+  "name": "reuse-slugify",
+  "tier": "easy",
+  "prompt": "In the project at {DIR}: add a `filename()` method to the Article class in src/articles.py that returns the article title as a safe lowercase hyphenated filename ending in '.md' (e.g. 'Hello, World!' -> 'hello-world.md'). Work only inside that directory. When finished, your final message is your report.",
+  "grade": {
+    "check_cmd": "cd {DIR}/src && python3 -c \"from articles import Article; a=Article('Hello, World!','x'); assert a.filename()=='hello-world.md', a.filename(); print('ok')\"",
+    "file_regex": {"src/articles.py": "slugify"},
+    "file_forbid": {"src/articles.py": "unicodedata|re\\.sub"}
+  }
+}

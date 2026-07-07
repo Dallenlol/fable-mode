@@ -1,12 +1,19 @@
 {
   "name": "fable-mode",
-  "version": "1.2.0",
-  "description": "Make any Claude model work like Fable 5: its task workflow, difficulty routing with a hard-problem protocol, and token discipline. Same quality bar, far fewer tokens.",
+  "version": "1.3.0",
+  "description": "Make any Claude model work like Fable 5: its task workflow, auto-routed intensity levels with a hard-problem protocol, local token stats, and token discipline. Same quality bar, far fewer tokens.",
   "author": {
     "name": "Dallenlol",
     "url": "https://github.com/Dallenlol"
   },
   "repository": "https://github.com/Dallenlol/fable-mode",
   "license": "MIT",
-  "keywords": ["claude", "claude-code", "plugin", "token-optimization", "ai-agents", "prompt-engineering"]
+  "keywords": [
+    "claude",
+    "claude-code",
+    "plugin",
+    "token-optimization",
+    "ai-agents",
+    "prompt-engineering"
+  ]
 }

@@ -1,0 +1,10 @@
+{
+  "name": "easy-parse-blank",
+  "tier": "easy",
+  "prompt": "Users report that `invoice_total` in src/calc.py crashes when an invoice row has a blank amount string. Fix it. The project lives at {DIR} — work only inside that directory. When finished, your final message is your report.",
+  "grade": {
+    "check_cmd": "cd {DIR}/src && python3 test_calc.py",
+    "file_regex": {"src/calc.py": "def parse_amount"},
+    "final_regex": ["parse_amount"]
+  }
+}

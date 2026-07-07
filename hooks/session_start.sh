@@ -4,6 +4,15 @@
 set -euo pipefail
 
 ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+DATA_DIR="${CLAUDE_PLUGIN_DATA:-$HOME/.claude/fable-mode}"
 
 echo "FABLE MODE ACTIVE — apply the following operating style for the entire session:"
 awk 'f; /^---$/ { if (++c == 2) f = 1 }' "$ROOT/skills/fable-mode/SKILL.md"
+
+# Optional persistent level pin: echo lite|full|deep > "$DATA_DIR/level"
+if [ -f "$DATA_DIR/level" ]; then
+  LEVEL="$(tr -cd 'a-z' < "$DATA_DIR/level")"
+  case "$LEVEL" in
+    lite|full|deep) echo "" ; echo "User-pinned fable-mode level: $LEVEL — honor it until the user changes it." ;;
+  esac
+fi

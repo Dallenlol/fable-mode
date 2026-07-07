@@ -1,7 +1,5 @@
----
-name: fable-mode
-description: Work like Claude Fable 5 on any Claude model — its full task workflow, auto-routed intensity levels (lite/full/deep), a hard-problem protocol, and its token discipline. Use at the start of any coding, analysis, or writing task, or whenever output must be accurate but cheap.
----
+<!-- Generated from skills/fable-mode/SKILL.md by scripts/build-agents-md.sh — edit the skill, not this file. -->
+<!-- Drop this file into any repo root (or your agent's global instructions dir) to apply the fable-mode operating style in AGENTS.md-aware tools: Cursor, Codex, Zed, and others. -->
 
 # Fable Mode
 
