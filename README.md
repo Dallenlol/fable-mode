@@ -1,6 +1,10 @@
-# fable-mode
+# ⚡ Fable
 
-**Make any Claude model work like a frontier model — Fable 5's judgment, workflow, and token discipline as a Claude Code plugin.**
+**Make any Claude model work like a frontier model — Fable 5's judgment, workflow, and token discipline as a Claude Code plugin** (`fable-mode`).
+
+**Fable is a persona**: the frontier model's work ethic, installed on whatever model you can afford. It reads less, writes less, verifies more — and it stays in character for the whole session (`fable off` to release it).
+
+**→ [Full setup guide](INSTALL.md)** · [Benchmark results](evals/RESULTS.md) · [Portable AGENTS.md](AGENTS.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange)](https://code.claude.com/docs/en/plugins)
@@ -56,19 +60,20 @@ The injected prompt itself costs ~1,500 tokens per session — it pays for itsel
 
 ## Built-in statusline
 
-An at-a-glance HUD for the bottom of your terminal — current fable level, model, git branch, a live context-window meter with tokens remaining, session output tokens, cost, duration, and lines changed:
+A two-line HUD at the bottom of your terminal — level, model, branch, session output tokens, cost, duration, lines changed, and the two meters that matter most at a glance: **context window** (with tokens remaining) and **your plan's usage limits** (5-hour and 7-day windows, native from Claude Code for Pro/Max subscribers):
 
 ```
-⚡ fable auto │ Opus 4.8 │ ⎇ main │ ctx ██████░░░░ 58% · 84k left │ out 12.3k │ $4.12 · 42m │ +310/−42
+⚡ Fable auto │ Opus 4.8 │ ⎇ main │ out 12.3k │ $4.12 · 42m │ +310/−42
+ctx █████░░░░░ 58% · 84k left │ 5h ███░░░ 52% ↻ 03:26 │ 7d █░░░░░ 23% ↻ 16:46
 ```
 
-Opt-in (it would replace any statusline you already use):
+Usage meters turn **yellow at 50%** and red at 80%, with the window's reset time next to them — you know you're halfway through your quota the moment it happens, not when you hit the wall. The context meter turns yellow at 60% and red at 85%: your cue to `/clear` between unrelated tasks. Opt-in install (refuses to clobber an existing statusline without `--force`):
 
 ```bash
-~/.claude/plugins/<fable-mode-path>/scripts/install-statusline.sh   # or run from a clone
+scripts/install-statusline.sh   # see INSTALL.md for the full walkthrough
 ```
 
-The context meter turns yellow at 60% and red at 85% — your cue to `/clear` or let compaction do its thing. The renderer is a single ~50ms script reading only local files; `--force` replaces an existing statusline, and uninstalling is just removing the `statusLine` key from `~/.claude/settings.json`. Pin levels on the fly with `/fable-mode:fable-level lite|full|deep|auto`.
+The renderer is a single ~45ms script reading only local files. Pin levels on the fly with `/fable-mode:fable-level lite|full|deep|auto`.
 
 ## See what it saves you
 

@@ -1,6 +1,6 @@
 {
   "name": "fable-mode",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Make any Claude model work like Fable 5: its task workflow, auto-routed intensity levels with a hard-problem protocol, local token stats, and token discipline. Same quality bar, far fewer tokens.",
   "author": {
     "name": "Dallenlol",
@@ -15,5 +15,6 @@
     "token-optimization",
     "ai-agents",
     "prompt-engineering"
-  ]
+  ],
+  "displayName": "Fable"
 }
