@@ -54,6 +54,22 @@ mkdir -p ~/.claude/fable-mode && echo deep > ~/.claude/fable-mode/level
 
 The injected prompt itself costs ~1,500 tokens per session — it pays for itself in the first avoided file re-read.
 
+## Built-in statusline
+
+An at-a-glance HUD for the bottom of your terminal — current fable level, model, git branch, a live context-window meter with tokens remaining, session output tokens, cost, duration, and lines changed:
+
+```
+⚡ fable auto │ Opus 4.8 │ ⎇ main │ ctx ██████░░░░ 58% · 84k left │ out 12.3k │ $4.12 · 42m │ +310/−42
+```
+
+Opt-in (it would replace any statusline you already use):
+
+```bash
+~/.claude/plugins/<fable-mode-path>/scripts/install-statusline.sh   # or run from a clone
+```
+
+The context meter turns yellow at 60% and red at 85% — your cue to `/clear` or let compaction do its thing. The renderer is a single ~50ms script reading only local files; `--force` replaces an existing statusline, and uninstalling is just removing the `statusLine` key from `~/.claude/settings.json`. Pin levels on the fly with `/fable-mode:fable-level lite|full|deep|auto`.
+
 ## See what it saves you
 
 fable-mode logs per-session token usage **locally** (nothing is transmitted anywhere): a `Stop` hook appends one JSON line per session to the plugin's data directory. Ask for your numbers any time:
