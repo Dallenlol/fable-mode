@@ -1,0 +1,11 @@
+{
+  "name": "marathon-defaults",
+  "tier": "marathon",
+  "prompt": "Support escalation: outbound requests from our service intermittently carry headers from unrelated earlier requests (a customer saw someone else's webhook signature header on a notification call). The service lives at {DIR}, tests in src/test_http.py (they pass). Find the root cause and fix it. Work only inside that directory. When finished, your final message is your report.",
+  "grade": {
+    "check_cmd": "cd {DIR}/src && python3 -c \"import sys; sys.path.insert(0,'.'); from services.webhooks import webhook_headers; from core.http import build_headers; webhook_headers('sig-abc'); h=build_headers(); assert 'x-signature' not in h, h; print('ok')\" && python3 test_http.py",
+    "file_regex": {"src/core/http.py": "extra is None|extra=None|dict\\(extra|\\*\\*extra|copy\\("},
+    "file_forbid": {"src/services/webhooks.py": "copy\\(|dict\\(", "src/services/notify.py": "copy\\(|dict\\("},
+    "final_regex": ["build_headers|http\\.py", "mutable|default|shared|leak"]
+  }
+}

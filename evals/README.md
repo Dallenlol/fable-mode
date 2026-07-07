@@ -38,6 +38,8 @@ Each row in the results JSON records `model`, `condition`, `pass`, `cost_usd`, a
 | `hard-interval-merge` | hard | Green-suite trap: coverage-losing merge bug the test suite never exercises |
 | `hard-round-half` | hard | Spec-vs-implementation: `round()` is banker's rounding; the docstring demands half-away-from-zero |
 | `marathon-cents` | marathon | 12-file service, cross-file root cause (float truncation in the shared money module, symptom reported two layers away) — measures reading discipline and root-cause instinct at scale |
+| `marathon-config` | marathon | Layered-settings service where the merge order silently inverts env-var precedence — spec-vs-implementation at scale |
+| `marathon-defaults` | marathon | Request-builder service leaking state across calls via a shared mutable default — the fix must land in the shared module, not the reporting caller |
 
 ## Adding a task
 

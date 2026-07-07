@@ -97,5 +97,27 @@ bad = grade(cfg, work, "built a cache", pre)
 check("cache: cache class trips file_forbid", bad["forbid:src/fetcher.py"] is False)
 shutil.rmtree(work, ignore_errors=True)
 
+# marathon tasks: unfixed fixture fails, root-cause fix passes
+MARATHON_FIXES = {
+    "marathon-cents": ("src/core/money.py", "return int(dollars * 100)",
+                       "return int(round(dollars * 100))",
+                       "root cause in to_cents (core/money.py): float truncation, int(19.99*100)==1998; fixed with round()"),
+    "marathon-config": ("src/core/config.py", "{**DEFAULTS, **_env_overrides(), **file_cfg}",
+                        "{**DEFAULTS, **file_cfg, **_env_overrides()}",
+                        "root cause in load_settings (core/config.py): merge order inverted env precedence; reordered the merge"),
+    "marathon-defaults": ("src/core/http.py", "def build_headers(extra={}):\n    \"\"\"Headers for one request: base + per-request extras. Each call is independent.\"\"\"\n    extra.update(BASE_HEADERS)",
+                          "def build_headers(extra=None):\n    \"\"\"Headers for one request: base + per-request extras. Each call is independent.\"\"\"\n    extra = dict(extra) if extra else {}\n    extra.update(BASE_HEADERS)",
+                          "root cause: shared mutable default in build_headers (core/http.py); fixed with extra=None"),
+}
+for task, (rel, old, new, report) in MARATHON_FIXES.items():
+    cfg, work, pre = stage(task)
+    bad = grade(cfg, work, report, pre)
+    check(f"{task}: unfixed fixture fails", bad["check_cmd"] is False)
+    p = work / rel
+    p.write_text(p.read_text().replace(old, new))
+    good = grade(cfg, work, report, pre)
+    check(f"{task}: root-cause fix passes all checks", all(good.values()))
+    shutil.rmtree(work, ignore_errors=True)
+
 print(f"\n{'ALL PASS' if not failures else f'{len(failures)} FAILURES: {failures}'}")
 sys.exit(1 if failures else 0)

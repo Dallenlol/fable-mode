@@ -56,16 +56,16 @@ Opus passes everything either way — the deltas are in shape: fable-mode report
 
 **On hard tasks fable-mode spends *more* output tokens on both models (up to ~1.9× on Haiku)** — that is the difficulty routing working as designed: the deep gear buys invariant-checking and executable verification exactly where being wrong is expensive, funded by the savings everywhere else.
 
-## Marathon tier — Sonnet (added with v1.6.0)
+## Marathon tier — Sonnet, three tasks, n=2 per condition (expanded with v1.7.0)
 
-The `marathon-cents` task (12-file service, cross-file root cause, symptom reported two layers from the bug) is where reading discipline actually compounds:
+Three multi-file services, each with a cross-file root cause reported far from the bug (`marathon-cents`: float truncation; `marathon-config`: inverted env precedence; `marathon-defaults`: shared-mutable-default state leak). Aggregate over all 6 runs per condition:
 
-| condition | pass | out-tokens | turns | report-chars |
+| condition | pass | out-tokens (Σ) | turns (Σ) | report-chars (Σ) |
 |---|---|---|---|---|
-| Sonnet (plain) | ✅ | 3,233 | 16 | 955 |
-| Sonnet + fable-mode | ✅ | 2,533 | **7** | 907 |
+| Sonnet (plain) | 6/6 | 26,854 | 72 | 7,938 |
+| Sonnet + fable-mode | 6/6 | 24,661 (−8%) | 62 (−14%) | 5,129 (−35%) |
 
-Same root-cause fix (shared `to_cents`, not a caller patch) — **56% fewer turns and 22% fewer output tokens.** This is the shape of the savings on real work, versus the ±5% noise on sub-minute tasks.
+Every run in both conditions landed the root-cause fix in the shared module (the graders reject caller-side patches). fable-mode's savings concentrate in turns and report weight; per-task variance is visible at n=2 (best single-task delta: −56% turns on `marathon-cents` in the v1.6.0 run), which is why sums are reported rather than cherry-picked runs. Haiku + fable-mode also passes all three marathons — its fable-condition record across every task and run to date is **9/9**.
 
 ## Caveats
 

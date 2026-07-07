@@ -74,6 +74,14 @@ scripts/install-statusline.sh   # see INSTALL.md for the full walkthrough
 
 The renderer is a single ~45ms script reading only local files. Pin levels on the fly with `/fable-mode:fable-level lite|full|deep|auto`.
 
+## The closed loop — it learns your model's bad habits
+
+Static system prompts are open-loop: they say the same thing no matter what the model actually does. Fable closes the loop, entirely locally: the `Stop` hook reads each session's transcript and mechanically detects discipline violations — re-reading a file right after editing it, reading the same file three times, rewriting whole files where a targeted edit would do, ending a session of edits with no verification run. At the next session start, the hook injects **one** targeted corrective for the worst recurring habit:
+
+> Habit check (from your recent sessions on this machine): you re-read files right after editing them 4 times — an edit succeeded unless the tool errored; never re-read to check your own work. Fix this today.
+
+No telemetry, no cloud, no config — the transcripts never leave your machine, and the corrective is one line so it never bloats your context. Over sessions, the prompt stops being generic and starts being about *your* model's specific waste.
+
 ## The state loop — stop paying for your chat history
 
 The single biggest token sink in long sessions is the conversation itself: every turn re-bills the entire history as input. The state loop replaces it with a project memory file:

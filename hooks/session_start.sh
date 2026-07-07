@@ -15,6 +15,37 @@ if [ -f "$DATA_DIR/statusline.sh" ] && [ -f "$ROOT/statusline/statusline.sh" ]; 
   chmod +x "$DATA_DIR/statusline.sh" 2>/dev/null || true
 fi
 
+# Closed loop: inject ONE corrective for the worst recurring habit from the last
+# few sessions (detected by stop_stats.sh from the transcripts, all local).
+if [ -f "$DATA_DIR/stats.jsonl" ]; then
+  CORRECTIVE="$(python3 - "$DATA_DIR/stats.jsonl" <<'PY' 2>/dev/null
+import json, sys
+rows = []
+for line in open(sys.argv[1]):
+    try:
+        rows.append(json.loads(line))
+    except Exception:
+        pass
+recent = rows[-3:]
+agg = {}
+for r in recent:
+    for k, v in (r.get("viol") or {}).items():
+        agg[k] = agg.get(k, 0) + v
+msgs = {
+    "reread_after_edit": "re-read files right after editing them {n} times — an edit succeeded unless the tool errored; never re-read to check your own work",
+    "repeat_reads": "read the same file 3+ times in {n} sessions-worth of work — read the relevant range once and trust your context",
+    "write_over_edit": "rewrote whole files with Write {n} times where a targeted edit would do — output cost scales with the diff, not the file",
+    "no_verification": "ended {n} session(s) with edits but no verification run — always run the check that would fail if you were wrong",
+}
+best = max(((k, v) for k, v in agg.items() if v >= 2 or (k == "no_verification" and v >= 1)),
+           key=lambda kv: kv[1], default=None)
+if best:
+    print(f"Habit check (from your recent sessions on this machine): you {msgs[best[0]].replace('{n}', str(best[1]))}. Fix this today.")
+PY
+)"
+  [ -n "$CORRECTIVE" ] && { echo ""; echo "$CORRECTIVE"; }
+fi
+
 # Optional persistent level pin: echo lite|full|deep > "$DATA_DIR/level"
 if [ -f "$DATA_DIR/level" ]; then
   LEVEL="$(tr -cd 'a-z' < "$DATA_DIR/level")"

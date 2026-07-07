@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.0 — 2026-07-07
+
+- **The closed loop**: the Stop hook now detects discipline violations from each session's transcript (re-reads after edits, repeated whole-file reads, Write-instead-of-Edit rewrites, edits shipped without verification) and the next session start injects one targeted corrective for the worst recurring habit. All local, one line of context cost, per-machine adaptive.
+- **Marathon tier expanded to three tasks** (`marathon-config`: inverted env precedence; `marathon-defaults`: shared-mutable-default leak) at n=2 per condition on Sonnet: 12/12 pass, fable-mode −35% report length, −14% turns, −8% output tokens. Haiku fable-condition record now 9/9 all-time.
+- Grading self-test extended to all marathon tasks (20 checks).
+
 ## v1.6.1 — 2026-07-07
 
 - **Breakpoint clearing policy**: the state loop now suggests `/clear` at natural task boundaries (task complete + context above ~40%) instead of on a raw percentage timer, stays quiet mid-task below ~85%, and never right after a turn the user may want to tweak — clearing too often costs more than it saves (cache-rebuild tax). Statusline shows a `⟳ clear-worthy` chip when a breakpoint is available.

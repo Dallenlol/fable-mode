@@ -24,4 +24,6 @@ for r in rows[-10:]:
 PY
 ```
 
+Rows may also carry a `viol` dict (discipline violations detected per session: `reread_after_edit`, `repeat_reads`, `write_over_edit`, `no_verification`). If any are non-zero across recent sessions, add one line naming the worst habit and its trend.
+
 Report the totals and the recent-session table, then one sentence of interpretation (e.g., rising cache-read share means long sessions — suggest `/clear` between unrelated tasks). Don't estimate dollar costs unless the user provides their pricing. All data is local; nothing is transmitted anywhere.

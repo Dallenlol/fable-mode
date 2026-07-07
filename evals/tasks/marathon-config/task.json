@@ -1,0 +1,11 @@
+{
+  "name": "marathon-config",
+  "tier": "marathon",
+  "prompt": "Ops reports that in production, environment-variable settings (like APP_ENDPOINT) are being ignored whenever a config file is also present — the docstring contract says env always wins. The service lives at {DIR}, tests in src/test_config.py (they pass). Find the root cause and fix it. Work only inside that directory. When finished, your final message is your report.",
+  "grade": {
+    "check_cmd": "cd {DIR}/src && APP_ENDPOINT=https://env-wins python3 -c \"import json,tempfile,sys; sys.path.insert(0,'.'); from core.config import load_settings; f=tempfile.NamedTemporaryFile('w',suffix='.json',delete=False); json.dump({'endpoint':'https://from-file'},f); f.close(); s=load_settings(f.name); assert s['endpoint']=='https://env-wins', s['endpoint']; print('ok')\" && python3 test_config.py",
+    "file_regex": {"src/core/config.py": "file_cfg.*_env_overrides|_env_overrides\\(\\)\\}"},
+    "file_forbid": {"src/services/client.py": "environ", "src/services/health.py": "environ"},
+    "final_regex": ["load_settings|config\\.py", "order|precedence|overrid|merge"]
+  }
+}
