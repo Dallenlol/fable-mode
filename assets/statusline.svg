@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="86" viewBox="0 0 760 86" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="13">
+  <rect width="760" height="86" rx="8" fill="#1a1b26"/>
+  <text x="16" y="34">
+    <tspan fill="#bb9af7" font-weight="bold">⚡ Fable</tspan><tspan fill="#7dcfff"> auto</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#bb9af7">Opus 4.8</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#7aa2f7">⎇ main</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#9ece6a">✎ state</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#565f89">out </tspan><tspan fill="#7dcfff">12.3k</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#e0af68">$4.12</tspan><tspan fill="#565f89"> · 42m</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#9ece6a">+310</tspan><tspan fill="#f7768e">/−42</tspan>
+  </text>
+  <text x="16" y="62">
+    <tspan fill="#565f89">ctx </tspan><tspan fill="#9ece6a">█████</tspan><tspan fill="#3b4261">░░░░░</tspan><tspan fill="#9ece6a"> 58%</tspan><tspan fill="#565f89"> · 84k left</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#565f89">5h </tspan><tspan fill="#e0af68">███</tspan><tspan fill="#3b4261">░░░</tspan><tspan fill="#e0af68"> 52%</tspan><tspan fill="#565f89"> ↻ 03:26</tspan><tspan fill="#3b4261"> │ </tspan><tspan fill="#565f89">7d </tspan><tspan fill="#9ece6a">█</tspan><tspan fill="#3b4261">░░░░░</tspan><tspan fill="#9ece6a"> 23%</tspan><tspan fill="#565f89"> ↻ 16:46</tspan>
+  </text>
+</svg>

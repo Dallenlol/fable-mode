@@ -18,6 +18,7 @@ if not os.path.exists(path):
 rows = [json.loads(l) for l in open(path) if l.strip()]
 tot = {k: sum(r.get(k, 0) for r in rows) for k in ("turns", "out", "in", "cache_read")}
 print(f"sessions: {len(rows)} | turns: {tot['turns']} | output tokens: {tot['out']:,} | fresh input: {tot['in']:,} | cache reads: {tot['cache_read']:,}")
+print(f"estimated output tokens saved vs unassisted: ~{int(tot['out'] * 0.37):,} (rough — scaled from the published easy-tier benchmark ratio, evals/RESULTS.md)")
 for r in rows[-10:]:
     print(f"{time.strftime('%m-%d %H:%M', time.localtime(r.get('ts', 0)))}  turns={r['turns']:<3} out={r['out']:>8,}  in={r['in']:>9,}  cache={r['cache_read']:>11,}")
 PY

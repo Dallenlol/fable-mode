@@ -1,0 +1,20 @@
+name: release-assets
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  skill-zip:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build claude.ai skill zip
+        run: |
+          cd skills && zip -r ../fable-mode-skill.zip fable-mode
+      - name: Attach to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" fable-mode-skill.zip --clobber

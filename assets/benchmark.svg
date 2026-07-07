@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="230" viewBox="0 0 760 230" font-family="ui-sans-serif,system-ui,-apple-system,sans-serif">
+  <style>
+    .lbl { font-size: 14px; fill: #a9b1d6; }
+    .val { font-size: 14px; font-weight: 700; fill: #c0caf5; }
+    .sub { font-size: 12px; fill: #565f89; }
+    @media (prefers-color-scheme: light) {
+      .lbl { fill: #343b58; } .val { fill: #1a1b26; } .sub { fill: #6c6f85; }
+    }
+  </style>
+  <text x="16" y="26" class="val" font-size="16">Same graded outcomes. A quarter of the cost.</text>
+  <text x="16" y="46" class="sub">Full benchmark suite · 6 graded tasks · real CLI-reported cost · 2026-07-07</text>
+
+  <text x="16" y="86" class="lbl">Claude Fable 5 (the target)</text>
+  <rect x="16" y="94" width="640" height="22" rx="5" fill="#bb9af7"/>
+  <text x="666" y="110" class="val">$10.71</text>
+  <text x="26" y="110" font-size="12" fill="#1a1b26" font-weight="700">6/6 outcomes</text>
+
+  <text x="16" y="150" class="lbl">Sonnet + fable-mode</text>
+  <rect x="16" y="158" width="172" height="22" rx="5" fill="#9ece6a"/>
+  <text x="198" y="174" class="val">$2.88 — 73% cheaper</text>
+  <text x="26" y="174" font-size="12" fill="#1a1b26" font-weight="700">6/6</text>
+
+  <text x="16" y="214" class="sub">Reproduce it yourself: evals/run.py --conditions control --model claude-fable-5</text>
+</svg>

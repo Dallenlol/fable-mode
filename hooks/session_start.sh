@@ -22,3 +22,21 @@ if [ -f "$DATA_DIR/level" ]; then
     lite|full|deep) echo "" ; echo "User-pinned fable-mode level: $LEVEL — honor it until the user changes it." ;;
   esac
 fi
+
+# State loop (toggle: /fable-mode:fable-state on|off). Injects the project memory
+# file so a /clear'd session resumes from ~2k tokens instead of the full history.
+if [ -f "$DATA_DIR/state-loop" ]; then
+  echo ""
+  if [ -f ".fable-state.md" ]; then
+    echo "PROJECT STATE LOOP ACTIVE — .fable-state.md is your continuation context (the chat may have been cleared; trust this file):"
+    echo '---'
+    head -c 12000 .fable-state.md
+    echo ""
+    echo '---'
+  else
+    echo "PROJECT STATE LOOP ACTIVE — no .fable-state.md in this project yet; create it at the end of your first substantive turn."
+  fi
+  cat <<'RULES'
+State-loop discipline: at the end of every substantive turn, create or update .fable-state.md in the project root — goal, key decisions with reasons, what's done, what's next, key file paths — in the simplest form that lets a fresh session continue perfectly. Rewrite for density rather than appending; keep it under ~150 lines. When the context window passes ~60%, tell the user one line: "/clear when ready — .fable-state.md carries the thread."
+RULES
+fi

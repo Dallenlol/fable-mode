@@ -66,6 +66,9 @@ except Exception:
 
 # ---- line 1: identity ----
 l1 = [c("35;1", "⚡ Fable") + " " + c("36", level), c("35", model)]
+if os.path.exists(f"{DATA}/state-loop"):
+    has_state = os.path.exists(os.path.join(cwd, ".fable-state.md"))
+    l1.append(c("32", "✎ state") if has_state else f"{DIM}✎ state ∅{RST}")
 if branch:
     l1.append(c("34", f"⎇ {branch}"))
 if out_tok is not None:

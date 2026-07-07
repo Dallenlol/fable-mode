@@ -1,0 +1,14 @@
+{
+  "name": "marathon-cents",
+  "tier": "marathon",
+  "prompt": "Customers report that invoice totals from our orders service are occasionally off by one cent — support reproduced it with a $19.99 line item. The service lives at {DIR} (entry points in src/api/, tests in src/test_orders.py, which passes). Find the root cause and fix it. Work only inside that directory. When finished, your final message is your report.",
+  "grade": {
+    "check_cmd": "cd {DIR}/src && python3 -c \"import sys; sys.path.insert(0,'.'); from core.models import LineItem, Order; from services.invoicing import invoice_total_cents; o=Order(order_id='x'); o.items=[LineItem('K',19.99,1)]; t=invoice_total_cents(o); assert t==2099, t; print('ok')\" && python3 test_orders.py",
+    "file_regex": {"src/core/money.py": "round"},
+    "file_forbid": {
+      "src/services/pricing.py": "round\\(",
+      "src/services/invoicing.py": "round\\("
+    },
+    "final_regex": ["to_cents|money\\.py", "float|truncat|1998|int\\("]
+  }
+}

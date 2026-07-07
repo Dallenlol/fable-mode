@@ -70,6 +70,14 @@ Hooks don't run on claude.ai, but the skill itself is portable:
 
 Copy [`AGENTS.md`](AGENTS.md) from this repo into your project root (or your tool's global instructions location). It's generated from the same skill — identical behavior, any harness.
 
+## The state loop (optional)
+
+`/fable-mode:fable-state on` turns on the project memory loop: Fable maintains `.fable-state.md` in your project root every turn, and after any `/clear` the SessionStart hook re-injects it — so long projects continue from a ~2k-token state file instead of a six-figure chat history. Add `.fable-state.md` to `.gitignore` on shared repos. `off` to disable.
+
+## Windows
+
+The hooks and statusline are bash + python3: they work in **Git Bash / WSL**, and are untested in PowerShell. The skill itself (the operating style) is plain markdown and works everywhere Claude Code runs; on native Windows without Git Bash, skip the statusline installer and use the plugin without the HUD.
+
 ## Updating
 
 ```

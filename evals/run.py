@@ -34,12 +34,12 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-SKILL = ROOT.parent / "skills" / "fable-mode" / "SKILL.md"
+DEFAULT_SKILL = ROOT.parent / "skills" / "fable-mode" / "SKILL.md"
 HEADER = "FABLE MODE ACTIVE — apply the following operating style for the entire session:"
 
 
-def skill_body():
-    parts = SKILL.read_text().split("---\n")
+def skill_body(path):
+    parts = Path(path).read_text().split("---\n")
     return "---\n".join(parts[2:]).strip()  # drop YAML frontmatter
 
 
@@ -92,6 +92,8 @@ def main():
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--yolo", action="store_true",
                     help="use --dangerously-skip-permissions (runs are in isolated temp dirs)")
+    ap.add_argument("--skill-file", default=str(DEFAULT_SKILL),
+                    help="alternate SKILL.md to inject in the fable condition — A/B prompt variants")
     args = ap.parse_args()
 
     task_dirs = sorted(d for d in (ROOT / "tasks").iterdir() if (d / "task.json").exists())
@@ -100,7 +102,7 @@ def main():
     if not task_dirs:
         sys.exit("no tasks found")
 
-    body, rows = skill_body(), []
+    body, rows = skill_body(args.skill_file), []
     for td in task_dirs:
         cfg = json.loads((td / "task.json").read_text())
         for cond in args.conditions:

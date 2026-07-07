@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from run import grade, skill_body, tree_hashes  # noqa: E402
+from run import DEFAULT_SKILL, grade, skill_body, tree_hashes  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent
 failures = []
@@ -28,7 +28,7 @@ def stage(task):
 
 
 # skill body extraction: no frontmatter, has the section headers
-body = skill_body()
+body = skill_body(DEFAULT_SKILL)
 check("skill_body strips frontmatter", body.startswith("# Fable Mode"))
 check("skill_body keeps protocol", "Hard-problem protocol" in body)
 
