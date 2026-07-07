@@ -56,6 +56,17 @@ Opus passes everything either way — the deltas are in shape: fable-mode report
 
 **On hard tasks fable-mode spends *more* output tokens on both models (up to ~1.9× on Haiku)** — that is the difficulty routing working as designed: the deep gear buys invariant-checking and executable verification exactly where being wrong is expensive, funded by the savings everywhere else.
 
+## Marathon tier — Sonnet (added with v1.6.0)
+
+The `marathon-cents` task (12-file service, cross-file root cause, symptom reported two layers from the bug) is where reading discipline actually compounds:
+
+| condition | pass | out-tokens | turns | report-chars |
+|---|---|---|---|---|
+| Sonnet (plain) | ✅ | 3,233 | 16 | 955 |
+| Sonnet + fable-mode | ✅ | 2,533 | **7** | 907 |
+
+Same root-cause fix (shared `to_cents`, not a caller patch) — **56% fewer turns and 22% fewer output tokens.** This is the shape of the savings on real work, versus the ±5% noise on sub-minute tasks.
+
 ## Caveats
 
 One run per cell (two for the re-run) — directional, not statistically powered. Add `--runs 3` or more for tighter numbers. Tasks where both conditions pass measure *how* the result is reached (tokens, turns, fix location, report shape), which is the design goal: same output, lower spend.
