@@ -1,5 +1,17 @@
 # Benchmark results — 2026-07-07
 
+## The three-way comparison (the product claim, measured)
+
+Full suite, one run per cell, real `cost_usd` from the Claude Code CLI:
+
+| arm | graded outcomes | suite cost | report chars |
+|---|---|---|---|
+| **Claude Fable 5** (the target) | 6/6 | **$10.71** | 5,848 |
+| **Sonnet + fable-mode** | **6/6** | **$2.88** | 3,585 |
+| Sonnet (plain) | 6/6 | $2.75 | 4,094 |
+
+**Sonnet with fable-mode matched Fable 5 on every graded outcome at 73% lower cost.** Within-model, the injection costs ~5% extra on these deliberately small tasks while cutting report length 12% — the within-model savings compound on longer sessions (see the Haiku easy-tier numbers below: −27% output tokens, −27% turns). Note the honest caveat: these six tasks sit within Sonnet's unassisted capability (plain Sonnet also passes); what the plugin buys at this tier is Fable-shaped process — root-cause fixes, verification, judgment-call flagging, terse outcome-first reports — and the price delta versus running the frontier model itself.
+
 Full six-task suite (`evals/run.py`, 1 run per cell unless noted), fable-mode vs. unprompted control, graded against ground truth. Raw per-run JSON is written to `evals/results/` (gitignored); this file is the curated snapshot. Reproduce with `evals/run.py --model <m>`.
 
 ## Opus 4.8 — 12/12 passed (both conditions)
