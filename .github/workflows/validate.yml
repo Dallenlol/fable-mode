@@ -34,6 +34,11 @@ jobs:
           scripts/build-agents-md.sh
           git diff --exit-code AGENTS.md
 
+      - name: Charts are in sync with published stats
+        run: |
+          python3 evals/render_charts.py
+          git diff --exit-code assets/
+
       - name: Eval harness self-test (grading engine)
         run: python3 evals/selftest.py
 

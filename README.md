@@ -108,7 +108,13 @@ You get totals and a recent-session breakdown — output tokens, fresh input, ca
 
 The benchmark ships in this repo — [`evals/`](evals/) contains six graded tasks (root-cause instinct, triage discipline, reuse-over-reimplement, YAGNI, and two green-test-suite traps) and a stdlib-only runner that A/Bs them on your own account. Full tables in [`evals/RESULTS.md`](evals/RESULTS.md).
 
-**The headline, measured with real CLI-reported costs:** on the full suite, **Sonnet + fable-mode matched Claude Fable 5 on every graded outcome — 6/6 vs 6/6 — at $2.88 vs $10.71, i.e. 73% cheaper than running the frontier model itself.** Further highlights from the 2026-07-07 suite:
+**The headline, measured with real CLI-reported costs:** on the full suite, **Sonnet + fable-mode matched Claude Fable 5 on every graded outcome — 6/6 vs 6/6 — at $2.88 vs $10.71, i.e. 73% cheaper than running the frontier model itself.**
+
+![Marathon tier: fable-mode cuts report length 35%, turns 14%, output tokens 8% at identical pass rates](assets/chart-marathon.svg)
+
+![Haiku easy tier: 57% shorter reports, 27% fewer output tokens and turns at identical pass rates](assets/chart-haiku.svg)
+
+Every chart is generated from [`evals/published.json`](evals/published.json) by [`evals/render_charts.py`](evals/render_charts.py) — CI fails if the visuals drift from the published numbers. Further highlights from the 2026-07-07 suite:
 
 - **Haiku 4.5, easy tier:** identical pass rates, **−27% output tokens, −27% turns, −57% report length** with fable-mode. On one task the control wandered for 15 turns; fable-mode landed the one-decorator answer in 7.
 - **Opus 4.8:** 12/12 graded checks pass in both conditions — the deltas are in shape: fable-mode reports are 19% shorter overall with nothing graded missing.

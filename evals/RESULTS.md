@@ -1,5 +1,11 @@
 # Benchmark results — 2026-07-07
 
+Charts for the headline numbers live in [`../assets/`](../assets/) and are generated from [`published.json`](published.json) by [`render_charts.py`](render_charts.py) — regenerate after updating the published aggregates.
+
+![Cost comparison](../assets/benchmark.svg)
+![Marathon tier](../assets/chart-marathon.svg)
+![Haiku easy tier](../assets/chart-haiku.svg)
+
 ## The three-way comparison (the product claim, measured)
 
 Full suite, one run per cell, real `cost_usd` from the Claude Code CLI:

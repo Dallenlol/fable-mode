@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="286" viewBox="0 0 760 286" role="img">
+  <style>
+    .t1 { font: 700 16px ui-sans-serif,system-ui,sans-serif; fill: #0b0b0b; }
+    .t2 { font: 12px ui-sans-serif,system-ui,sans-serif; fill: #52514e; }
+    .lbl { font: 13px ui-sans-serif,system-ui,sans-serif; fill: #0b0b0b; }
+    .val { font: 700 13px ui-sans-serif,system-ui,sans-serif; fill: #0b0b0b; }
+    .onbar { font: 700 12px ui-sans-serif,system-ui,sans-serif; fill: #ffffff; }
+    .s1 { fill: #2a78d6; } .s2 { fill: #1baf7a; }
+    .grid { stroke: #52514e; stroke-opacity: .35; stroke-dasharray: 3 3; }
+    .bg { fill: #fcfcfb; }
+    @media (prefers-color-scheme: dark) {
+      .t1, .lbl, .val { fill: #ffffff; }
+      .t2 { fill: #c3c2b7; }
+      .s1 { fill: #3987e5; } .s2 { fill: #199e70; }
+      .grid { stroke: #c3c2b7; }
+      .bg { fill: #1a1a19; }
+    }
+  </style>
+  <rect class="bg" width="760" height="286" rx="8"/>
+  <text class="t1" x="16" y="28">Haiku, easy tier — same pass rate, far fewer tokens</text>
+  <text class="t2" x="16" y="47">4 graded tasks · identical pass rates · control = 100%</text>
+  <rect class="s1" x="16" y="58" width="10" height="10" rx="2"/><text class="t2" x="31" y="67">baseline / unassisted</text><rect class="s2" x="181" y="58" width="10" height="10" rx="2"/><text class="t2" x="196" y="67">+ fable-mode</text>
+  <line class="grid" x1="620" y1="82" x2="620" y2="236"/>
+  <text class="t2" x="578" y="250">control = 100%</text>
+  <text class="lbl" x="16" y="106">report length</text>
+  <rect class="s1" x="150" y="92" width="470" height="14" rx="4"/>
+  <text class="val" x="630" y="104">2,836 chars</text>
+  <rect class="s2" x="150" y="108" width="202" height="14" rx="4"/>
+  <text class="val" x="362" y="120">1,229 chars (−57%)</text>
+  <text class="lbl" x="16" y="158">output tokens</text>
+  <rect class="s1" x="150" y="144" width="470" height="14" rx="4"/>
+  <text class="val" x="630" y="156">8,833</text>
+  <rect class="s2" x="150" y="160" width="343" height="14" rx="4"/>
+  <text class="val" x="503" y="172">6,453 (−27%)</text>
+  <text class="lbl" x="16" y="210">turns</text>
+  <rect class="s1" x="150" y="196" width="470" height="14" rx="4"/>
+  <text class="val" x="630" y="208">33</text>
+  <rect class="s2" x="150" y="212" width="343" height="14" rx="4"/>
+  <text class="val" x="503" y="224">24 (−27%)</text>
+  <text class="t2" x="16" y="272">fable-condition Haiku record across every task and run to date: 9/9</text>
+</svg>

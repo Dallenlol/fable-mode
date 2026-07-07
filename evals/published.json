@@ -1,0 +1,32 @@
+{
+  "date": "2026-07-07",
+  "cost_threeway": {
+    "title": "Same graded outcomes. A quarter of the cost.",
+    "subtitle": "Full suite · 6 graded tasks · real CLI-reported cost",
+    "rows": [
+      {"label": "Claude Fable 5 (the target)", "cost_usd": 10.71, "pass": "6/6", "series": 1},
+      {"label": "Sonnet + fable-mode", "cost_usd": 2.88, "pass": "6/6", "series": 2}
+    ],
+    "footnote": "reproduce: evals/run.py --conditions control --model claude-fable-5"
+  },
+  "marathon_sonnet": {
+    "title": "Marathon tier — where discipline compounds",
+    "subtitle": "3 multi-file root-cause tasks · Sonnet · n=2 per condition · 12/12 pass both ways · control = 100%",
+    "rows": [
+      {"metric": "report length", "fable_pct": 65, "control_abs": "7,938 chars", "fable_abs": "5,129 chars"},
+      {"metric": "turns", "fable_pct": 86, "control_abs": "72", "fable_abs": "62"},
+      {"metric": "output tokens", "fable_pct": 92, "control_abs": "26,854", "fable_abs": "24,661"}
+    ],
+    "footnote": "sums across all runs · evals/RESULTS.md for per-run tables"
+  },
+  "haiku_easy": {
+    "title": "Haiku, easy tier — same pass rate, far fewer tokens",
+    "subtitle": "4 graded tasks · identical pass rates · control = 100%",
+    "rows": [
+      {"metric": "report length", "fable_pct": 43, "control_abs": "2,836 chars", "fable_abs": "1,229 chars"},
+      {"metric": "output tokens", "fable_pct": 73, "control_abs": "8,833", "fable_abs": "6,453"},
+      {"metric": "turns", "fable_pct": 73, "control_abs": "33", "fable_abs": "24"}
+    ],
+    "footnote": "fable-condition Haiku record across every task and run to date: 9/9"
+  }
+}
