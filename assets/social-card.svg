@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" font-family="ui-sans-serif,system-ui,-apple-system,sans-serif">
+  <rect width="1280" height="640" fill="#1a1a19"/>
+  <text x="80" y="130" font-size="64" font-weight="800" fill="#ffffff">⚡ Fable</text>
+  <text x="80" y="184" font-size="27" fill="#c3c2b7">The frontier model's work ethic, installed on the model you can afford.</text>
+
+  <text x="80" y="285" font-size="23" fill="#c3c2b7">Claude Fable 5 (the target)</text>
+  <rect x="80" y="300" width="830" height="34" rx="6" fill="#3987e5"/>
+  <text x="96" y="324" font-size="20" font-weight="700" fill="#ffffff">6/6 graded outcomes</text>
+  <text x="928" y="325" font-size="26" font-weight="800" fill="#ffffff">$10.71</text>
+
+  <text x="80" y="390" font-size="23" fill="#c3c2b7">Sonnet + fable-mode</text>
+  <rect x="80" y="405" width="223" height="34" rx="6" fill="#199e70"/>
+  <text x="96" y="429" font-size="20" font-weight="700" fill="#ffffff">6/6</text>
+  <text x="321" y="430" font-size="26" font-weight="800" fill="#ffffff">$2.88 — 73% cheaper</text>
+
+  <text x="80" y="525" font-size="23" fill="#c3c2b7">Benchmarked, reproducible, no telemetry · MIT</text>
+  <text x="80" y="570" font-size="24" font-weight="700" fill="#9ece6a">/plugin marketplace add Dallenlol/fable-mode</text>
+</svg>
