@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-orange)](https://code.claude.com/docs/en/plugins)
-[![Version](https://img.shields.io/badge/version-1.3.0-green)](.claude-plugin/plugin.json)
+[![Release](https://img.shields.io/github/v/release/Dallenlol/fable-mode)](https://github.com/Dallenlol/fable-mode/releases)
 
 Frontier models don't win by writing more — they win by judgment: reading only what matters, fixing root causes instead of symptoms, attacking their own answers before trusting them, and saying what happened in one sentence instead of five paragraphs. `fable-mode` distills that operating style from Claude Fable 5 into a ~1,500-token behavioral layer that loads automatically at the start of every Claude Code session, so cheaper models (Opus, Sonnet, Haiku) work the same way — and spend dramatically fewer tokens doing it.
 

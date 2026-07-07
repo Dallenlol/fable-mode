@@ -31,6 +31,9 @@ if existing and target not in existing and not force:
     sys.exit(0)
 
 settings["statusLine"] = {"type": "command", "command": target}
+if os.path.exists(settings_path):
+    import shutil
+    shutil.copy2(settings_path, settings_path + ".bak")
 tmp = settings_path + ".tmp"
 json.dump(settings, open(tmp, "w"), indent=2)
 os.replace(tmp, settings_path)

@@ -32,6 +32,8 @@ for line in open(tp):
     tot["cache_read"] += u.get("cache_read_input_tokens", 0)
     tot["cache_create"] += u.get("cache_creation_input_tokens", 0)
 
+# fable: read-modify-write race between concurrent sessions can drop one line for
+# one turn; it self-heals on the next Stop. Add file locking if that ever matters.
 sf = os.environ["STATS_FILE"]
 rows = []
 if os.path.exists(sf):

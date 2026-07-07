@@ -15,6 +15,18 @@ Requires the `claude` CLI, authenticated. Runs spend tokens on your account — 
 
 Results print as a markdown table and are saved to `evals/results/<timestamp>.json` (gitignored except for curated snapshots).
 
+## The three-way comparison (the product claim)
+
+The plugin's core claim is *Fable-level outcome, cheaper than Fable*. Measure it directly — run the frontier baseline and the cheap-model arms, then compare pass rates and `cost_usd` per suite:
+
+```bash
+evals/run.py --conditions control --model claude-fable-5   # the target: Fable itself, no plugin
+evals/run.py --conditions control --model sonnet           # cheap model, unassisted
+evals/run.py --conditions fable   --model sonnet           # cheap model + fable-mode
+```
+
+Each row in the results JSON records `model`, `condition`, `pass`, `cost_usd`, and token counts, so the three runs merge into one table. The claim holds when the third run matches the first on graded outcomes at a fraction of the summed `cost_usd`.
+
 ## Task set
 
 | Task | Tier | What it measures |

@@ -30,11 +30,9 @@ A two-line terminal HUD: level, model, branch, session output tokens, cost, dura
 ctx █████░░░░░ 58% · 84k left │ 5h ███░░░ 52% ↻ 03:26 │ 7d █░░░░░ 23% ↻ 16:46
 ```
 
-Install it from the plugin's installed location (or a clone of this repo):
+Install it from a clone of this repo (the installer copies the renderer to a stable path, so you can delete the clone afterward):
 
 ```bash
-bash "$(ls -d ~/.claude/plugins/cache/*/fable-mode* 2>/dev/null | head -1)/scripts/install-statusline.sh"
-# or from a clone:
 git clone https://github.com/Dallenlol/fable-mode && fable-mode/scripts/install-statusline.sh
 ```
 

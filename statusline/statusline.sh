@@ -85,7 +85,7 @@ l2 = []
 
 # context: official fields first, transcript-tail fallback for older versions
 ctx_pct, ctx_left = cw.get("used_percentage"), None
-size = cw.get("context_window_size") or 200000
+size = int(os.environ.get("FABLE_CTX_LIMIT", 0)) or cw.get("context_window_size") or 200000
 if ctx_pct is None and tp:
     try:
         fsize = os.path.getsize(tp)

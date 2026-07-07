@@ -106,30 +106,36 @@ def main():
         for cond in args.conditions:
             for i in range(args.runs):
                 work = Path(tempfile.mkdtemp(prefix=f"fable-eval-{td.name}-{cond}-"))
-                shutil.copytree(td / "fixture", work, dirs_exist_ok=True)
-                pre = tree_hashes(work)
-                prompt = cfg["prompt"].replace("{DIR}", str(work))
-                if cond == "fable":
-                    prompt = f"{HEADER}\n\n{body}\n\n---\n\nYour task: {prompt}"
-                t0 = time.time()
-                print(f"[{td.name} | {cond} | run {i + 1}] ...", file=sys.stderr, flush=True)
-                res = run_claude(prompt, args.model, args.yolo, args.timeout)
-                final = res.get("result") or ""
-                usage = res.get("usage") or {}
-                checks = grade(cfg, work, final, pre)
-                rows.append({
-                    "task": td.name, "tier": cfg.get("tier", "?"), "condition": cond, "run": i + 1,
-                    "pass": all(checks.values()) and not res.get("is_error"),
-                    "checks": checks,
-                    "output_tokens": usage.get("output_tokens"),
-                    "num_turns": res.get("num_turns"),
-                    "cost_usd": res.get("total_cost_usd"),
-                    "final_chars": len(final),
-                    "final": final[:3000],
-                    "secs": round(time.time() - t0),
-                    "workdir": str(work),
-                })
-                shutil.rmtree(work, ignore_errors=True)
+                try:
+                    shutil.copytree(td / "fixture", work, dirs_exist_ok=True)
+                    pre = tree_hashes(work)
+                    prompt = cfg["prompt"].replace("{DIR}", str(work))
+                    if cond == "fable":
+                        prompt = f"{HEADER}\n\n{body}\n\n---\n\nYour task: {prompt}"
+                    t0 = time.time()
+                    print(f"[{td.name} | {cond} | run {i + 1}] ...", file=sys.stderr, flush=True)
+                    try:
+                        res = run_claude(prompt, args.model, args.yolo, args.timeout)
+                    except subprocess.TimeoutExpired:
+                        res = {"result": "", "is_error": True, "error": "timeout"}
+                    final = res.get("result") or ""
+                    usage = res.get("usage") or {}
+                    checks = grade(cfg, work, final, pre)
+                    rows.append({
+                        "task": td.name, "tier": cfg.get("tier", "?"), "model": args.model,
+                        "condition": cond, "run": i + 1,
+                        "pass": all(checks.values()) and not res.get("is_error"),
+                        "checks": checks,
+                        "output_tokens": usage.get("output_tokens"),
+                        "num_turns": res.get("num_turns"),
+                        "cost_usd": res.get("total_cost_usd"),
+                        "final_chars": len(final),
+                        "final": final[:3000],
+                        "secs": round(time.time() - t0),
+                        "workdir": str(work),
+                    })
+                finally:
+                    shutil.rmtree(work, ignore_errors=True)
 
     out = ROOT / "results" / f"{time.strftime('%Y%m%d-%H%M%S')}.json"
     out.parent.mkdir(exist_ok=True)
