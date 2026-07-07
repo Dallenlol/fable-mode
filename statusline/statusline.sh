@@ -65,9 +65,10 @@ except Exception:
     pass
 
 # ---- line 1: identity ----
+state_loop = os.path.exists(f"{DATA}/state-loop")
+has_state = state_loop and os.path.exists(os.path.join(cwd, ".fable-state.md"))
 l1 = [c("35;1", "⚡ Fable") + " " + c("36", level), c("35", model)]
-if os.path.exists(f"{DATA}/state-loop"):
-    has_state = os.path.exists(os.path.join(cwd, ".fable-state.md"))
+if state_loop:
     l1.append(c("32", "✎ state") if has_state else f"{DIM}✎ state ∅{RST}")
 if branch:
     l1.append(c("34", f"⎇ {branch}"))
@@ -112,7 +113,10 @@ if ctx_pct is None and tp:
 if ctx_pct is not None:
     ctx_left = k(max(0, round(size * (1 - ctx_pct / 100))))
     bar, pct_s = meter(ctx_pct, warn=60, crit=85)
-    l2.append(f"{DIM}ctx{RST} {bar} {pct_s} {DIM}· {ctx_left} left{RST}")
+    seg = f"{DIM}ctx{RST} {bar} {pct_s} {DIM}· {ctx_left} left{RST}"
+    if has_state and ctx_pct >= 40:
+        seg += " " + c("33", "⟳ clear-worthy")
+    l2.append(seg)
 
 # usage limits (Pro/Max): warn at 50% per the plugin's design
 def window(wname, label):

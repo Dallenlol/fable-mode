@@ -112,7 +112,7 @@ evals/run.py --runs 3 --model haiku   # reproduce on your own account
 
 **claude.ai (web / desktop / mobile):** zip the `skills/fable-mode/` folder, then upload it at **Settings → Capabilities → Skills** (custom skills require a paid plan).
 
-**Cursor, Codex, Zed, and any AGENTS.md-aware tool:** copy [`AGENTS.md`](AGENTS.md) into your repo root (or your tool's global instructions location). It's generated from the same skill — one source of truth, every harness.
+**Cursor, Codex, Zed, and any AGENTS.md-aware tool — on any model provider:** copy [`AGENTS.md`](AGENTS.md) into your repo root (or your tool's global instructions location). It's generated from the same skill and written harness-neutral, so it works whether the agent underneath is Claude, GPT, Gemini, or a local model — one source of truth, every harness, every provider.
 
 ## How it works
 

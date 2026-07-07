@@ -37,6 +37,7 @@ if [ -f "$DATA_DIR/state-loop" ]; then
     echo "PROJECT STATE LOOP ACTIVE — no .fable-state.md in this project yet; create it at the end of your first substantive turn."
   fi
   cat <<'RULES'
-State-loop discipline: at the end of every substantive turn, create or update .fable-state.md in the project root — goal, key decisions with reasons, what's done, what's next, key file paths — in the simplest form that lets a fresh session continue perfectly. Rewrite for density rather than appending; keep it under ~150 lines. When the context window passes ~60%, tell the user one line: "/clear when ready — .fable-state.md carries the thread."
+State-loop discipline: at the end of every substantive turn, create or update .fable-state.md in the project root — goal, key decisions with reasons, what's done, what's next, key file paths — in the simplest form that lets a fresh session continue perfectly. Rewrite for density rather than appending; keep it under ~150 lines.
+Clearing policy — suggest at breakpoints, never on a timer: when a task just completed AND context is above ~40%, add one line: "Natural breakpoint — /clear when ready, .fable-state.md carries the thread." Mid-task, stay quiet below ~85%; above it, say "finish this step, then /clear." Never suggest clearing right after a turn the user may want to tweak. (Clearing too often costs more than it saves: cached history is cheap to re-read; rebuilding context after /clear is not.)
 RULES
 fi

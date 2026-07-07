@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.1 — 2026-07-07
+
+- **Breakpoint clearing policy**: the state loop now suggests `/clear` at natural task boundaries (task complete + context above ~40%) instead of on a raw percentage timer, stays quiet mid-task below ~85%, and never right after a turn the user may want to tweak — clearing too often costs more than it saves (cache-rebuild tax). Statusline shows a `⟳ clear-worthy` chip when a breakpoint is available.
+- **Provider-neutral skill wording**: subagent and compaction references now degrade gracefully on harnesses without those features — the AGENTS.md export works unchanged on Claude, GPT, Gemini, or local models.
+- Regression benchmark on the reworded skill: **Haiku 7/7** (first perfect sweep, marathon task included).
+
 ## v1.6.0 — 2026-07-07
 
 - **State loop** (`/fable-mode:fable-state on`): the model maintains a `.fable-state.md` project memory file at the end of every substantive turn; `/clear` whenever the context meter runs hot and the next session auto-resumes from the file — continuation context in ~2k tokens instead of the full chat history. Toggleable, off by default; statusline shows a `✎ state` indicator.

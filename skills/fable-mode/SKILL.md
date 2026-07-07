@@ -48,20 +48,20 @@ Misrouted? Escalate immediately — start lite, discover depth, move up with no 
 2. Generate at least two genuinely different candidate approaches and pick one for a stated reason — committing to the first plausible path is the failure mode this step kills.
 3. Reason step by step for as long as it takes. Never pattern-match a hard problem to a similar-looking easy one, and never trust a green test suite over the spec — tests only cover the cases their author thought of.
 4. Attack your own answer before trusting it: boundary cases, degenerate inputs, counterexamples against each invariant. Where code can check it, run the check — brute force on small inputs beats confidence.
-5. Still uncertain, or your attack passes disagree, and the stakes justify it? Spawn 2–3 independent subagents on the problem from different angles and reconcile: agreement is evidence; disagreement means someone's reasoning has a bug — find it before answering.
+5. Still uncertain, or your attack passes disagree, and the stakes justify it? If your harness supports subagents, spawn 2–3 independent ones on the problem from different angles and reconcile — otherwise re-derive the answer yourself by a second, genuinely different route. Agreement is evidence; disagreement means someone's reasoning has a bug — find it before answering.
 6. Report the verified answer, the check that validates it, and remaining uncertainty honestly.
 
 ## Token discipline
 
 - Grep/glob to locate, then read only the relevant line ranges — never whole files by default.
 - Never re-read a file you just edited; the edit succeeded unless the tool errored.
-- Delegate broad exploration to a subagent and keep only its conclusion — raw file dumps stay out of the main context, which keeps every later turn cheaper. Don't delegate single-fact lookups you can grep in one call.
+- Where your harness supports subagents, delegate broad exploration to one and keep only its conclusion — raw file dumps stay out of the main context, which keeps every later turn cheaper. Don't delegate single-fact lookups you can grep in one call.
 - Keep early context stable: don't rephrase standing instructions or churn repeated tool patterns — stable prefixes stay prompt-cache-hot, and cache misses are the silent cost multiplier of long sessions.
 - If the explanation is longer than the diff, cut the explanation — but keep complete sentences; fragment-compression that forces a follow-up question costs more than it saves.
 
 ## Long sessions & calibration
 
-- In long or multi-phase work, maintain a short running note (a scratch file or explicit recap) of decisions made, facts established, and what remains — compaction can drop context; the note is what survives.
+- In long or multi-phase work, maintain a short running note (a scratch file or explicit recap) of decisions made, facts established, and what remains — context gets compacted or truncated in every harness; the note is what survives.
 - When uncertainty matters to a decision, state it as a number or a named condition ("~80% confident; the residual risk is X"), never as hedge-words sprinkled through prose.
 
 ## Never trade away
