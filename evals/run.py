@@ -125,6 +125,7 @@ def main():
                     "num_turns": res.get("num_turns"),
                     "cost_usd": res.get("total_cost_usd"),
                     "final_chars": len(final),
+                    "final": final[:3000],
                     "secs": round(time.time() - t0),
                     "workdir": str(work),
                 })

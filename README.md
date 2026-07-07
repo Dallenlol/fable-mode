@@ -66,15 +66,14 @@ You get totals and a recent-session breakdown — output tokens, fresh input, ca
 
 ## Measured
 
-A/B runs on **Opus 4.8**, fable-mode vs. unprompted, same tasks, graded against known ground truth:
+The benchmark ships in this repo — [`evals/`](evals/) contains six graded tasks (root-cause instinct, triage discipline, reuse-over-reimplement, YAGNI, and two green-test-suite traps) and a stdlib-only runner that A/Bs them on your own account. Full tables in [`evals/RESULTS.md`](evals/RESULTS.md). Highlights from the 2026-07-07 suite:
 
-- **Routine bug fix** (shared parser crashing, symptom reported in one of two callers): both arms produced the identical root-cause fix. The fable-mode arm used **27% fewer output tokens**, verified against the project's existing test suite instead of inventing new scaffolding, and delivered a **77% shorter** outcome-first report that still contained everything needed.
-- **Hard audit** (subtle coverage-losing bug buried in a billing module behind a fully green test suite): both arms found the planted bug — and the fable-mode arm **additionally surfaced a genuine spec ambiguity the control missed**, spending ~2× output tokens on this one task. That asymmetry is the routing working as designed: save everywhere, spend where it buys correctness.
-
-Don't take our word for it — the benchmark ships in this repo. [`evals/`](evals/) contains six graded tasks (root-cause instinct, triage discipline, reuse-over-reimplement, YAGNI, and two green-test-suite traps) and a stdlib-only runner that A/Bs them on your own account:
+- **Haiku 4.5, easy tier:** identical pass rates, **−27% output tokens, −27% turns, −57% report length** with fable-mode. On one task the control wandered for 15 turns; fable-mode landed the one-decorator answer in 7.
+- **Opus 4.8:** 12/12 graded checks pass in both conditions — the deltas are in shape: fable-mode reports are 19% shorter overall with nothing graded missing.
+- **Hard tier, both models:** fable-mode deliberately spends *more* (up to ~1.9×) — the deep gear buys invariant-checking and executable verification exactly where being wrong is expensive, funded by savings everywhere else. Both models, both conditions, found the green-suite trap bugs; in earlier manual A/Bs the fable arm additionally surfaced a spec ambiguity the control missed.
 
 ```bash
-evals/run.py --runs 3 --model opus
+evals/run.py --runs 3 --model haiku   # reproduce on your own account
 ```
 
 ## Use it outside Claude Code

@@ -1,8 +1,12 @@
 {
   "name": "hard-interval-merge",
   "tier": "hard",
-  "prompt": "The module src/intervals.py implements interval utilities for a billing system; the docstrings are the spec. Its test suite (src/test_intervals.py) passes. Audit the module for correctness bugs. If you find any, report the root cause and a concrete breaking input; if it is correct, say so plainly. The project lives at {DIR} — work only inside that directory. Your final message is your report.",
+  "prompt": "The module src/intervals.py implements interval utilities for a billing system; the docstrings are the spec. Its test suite (src/test_intervals.py) passes. Audit the module for correctness bugs. If you find any, report the root cause and a concrete breaking input; if it is correct, say so plainly. The project lives at {DIR} \u2014 work only inside that directory. Your final message is your report.",
   "grade": {
-    "final_regex": ["max\\(", "contain|nest|shrink|inside", "merge_intervals"]
+    "final_regex": [
+      "max\\(",
+      "contain|nest|shrink|inside|subset|within|covered|smaller end|earlier end|overwrit",
+      "merge_intervals"
+    ]
   }
 }
