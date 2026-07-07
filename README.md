@@ -4,6 +4,8 @@
 
 **Fable is a persona**: the frontier model's work ethic, installed on whatever model you can afford. It reads less, writes less, verifies more — and it stays in character for the whole session (`fable off` to release it).
 
+*Claude Code plugin · reduces token usage and API cost on Haiku, Sonnet, and Opus · benchmarked against the frontier model with the harness included · exports to Cursor, Codex, Zed, and any AGENTS.md-aware agent on any model provider.*
+
 ![Same graded outcomes at a quarter of the cost](assets/benchmark.svg)
 
 **→ [Full setup guide](INSTALL.md)** · [Benchmark results](evals/RESULTS.md) · [Portable AGENTS.md](AGENTS.md) · [Changelog](CHANGELOG.md)
