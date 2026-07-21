@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- **Statusline works on native Windows without Git Bash**: added a pure-PowerShell renderer (`statusline/statusline.ps1`) and installer (`scripts/install-statusline.ps1`) — no bash or python3 needed. The installer edits only the `statusLine` key in `settings.json` (surgical string edit, since PowerShell 5.1's `ConvertTo-Json` corrupts the hooks' single-element arrays).
+- **Statusline portability fixes** (bash edition): force UTF-8 stdout so the emoji/box HUD renders on Windows cp1252 consoles instead of falling back to bare `fable`; the installer now wraps the script in the Git Bash exe on Windows (Claude Code launches statusLine via cmd, which can't run a bare `.sh`) and no longer crashes on its own success message. `.gitattributes` pins `*.sh` to LF so CRLF shebangs never reach Unix checkouts.
+
 ## v1.7.0 — 2026-07-07
 
 - **The closed loop**: the Stop hook now detects discipline violations from each session's transcript (re-reads after edits, repeated whole-file reads, Write-instead-of-Edit rewrites, edits shipped without verification) and the next session start injects one targeted corrective for the worst recurring habit. All local, one line of context cost, per-machine adaptive.

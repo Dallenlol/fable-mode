@@ -30,13 +30,22 @@ A two-line terminal HUD: level, model, branch, session output tokens, cost, dura
 ctx █████░░░░░ 58% · 84k left │ 5h ███░░░ 52% ↻ 03:26 │ 7d █░░░░░ 23% ↻ 16:46
 ```
 
-Install it from a clone of this repo (the installer copies the renderer to a stable path, so you can delete the clone afterward):
+Install it from a clone of this repo (the installer copies the renderer to a stable path, so you can delete the clone afterward).
+
+**macOS / Linux / Git Bash / WSL** (bash + python3 renderer):
 
 ```bash
 git clone https://github.com/Dallenlol/fable-mode && fable-mode/scripts/install-statusline.sh
 ```
 
-It refuses to replace an existing statusline unless you pass `--force`. Uninstall by deleting the `statusLine` key from `~/.claude/settings.json`. Non-default context sizes: set `FABLE_CTX_LIMIT` (only used by the fallback path on older CLIs; new CLIs report window size natively).
+**Native Windows without Git Bash** (pure-PowerShell renderer — needs no bash or python3):
+
+```powershell
+git clone https://github.com/Dallenlol/fable-mode
+powershell -NoProfile -ExecutionPolicy Bypass -File fable-mode\scripts\install-statusline.ps1
+```
+
+Both write the same HUD; pick the one matching your shell. Each refuses to replace an existing statusline unless you pass `--force` (bash) / `-Force` (PowerShell). Uninstall by deleting the `statusLine` key from `~/.claude/settings.json`. Non-default context sizes: set `FABLE_CTX_LIMIT` (only used by the fallback path on older CLIs; new CLIs report window size natively).
 
 ## 3. Pin an intensity level (optional)
 
@@ -76,7 +85,7 @@ Copy [`AGENTS.md`](AGENTS.md) from this repo into your project root (or your too
 
 ## Windows
 
-The hooks and statusline are bash + python3: they work in **Git Bash / WSL**, and are untested in PowerShell. The skill itself (the operating style) is plain markdown and works everywhere Claude Code runs; on native Windows without Git Bash, skip the statusline installer and use the plugin without the HUD.
+The hooks are bash + python3: they work in **Git Bash / WSL**. The statusline HUD ships in two forms — the bash + python3 renderer (`install-statusline.sh`) and a pure-PowerShell renderer (`install-statusline.ps1`) that needs neither, for **native Windows without Git Bash**. The PowerShell installer edits only the `statusLine` key in `settings.json`, leaving everything else untouched. The skill itself (the operating style) is plain markdown and works everywhere Claude Code runs.
 
 ## Updating
 
@@ -99,7 +108,8 @@ Then optionally remove `~/.claude/fable-mode/` (stats + level pin) and the `stat
 | Symptom | Fix |
 |---|---|
 | No `FABLE MODE ACTIVE` in context | Run `/doctor` — check the plugin loaded; restart the session; confirm `hooks/session_start.sh` is executable |
-| Statusline blank | Confirm `python3 --version` works; run the script manually: `echo '{}' \| ~/.claude/fable-mode/statusline.sh` |
+| Statusline blank (bash) | Confirm `python3 --version` works; run it manually: `echo '{}' \| ~/.claude/fable-mode/statusline.sh` |
+| Statusline blank (Windows PowerShell) | Run it manually: `echo '{}' \| powershell -NoProfile -File $HOME\.claude\fable-mode\statusline.ps1` — prints `fable` on valid-but-empty input |
 | No 5h/7d usage meters | They appear only for Claude Pro/Max subscribers, after the first response in a session — API-key users have no rate-limit windows |
 | `/fable-stats` says no stats | Stats appear after the first completed session with the plugin installed |
 | Behavior drifts in long sessions | The style re-injects after compaction automatically; say "fable on" to re-assert instantly |
