@@ -9,7 +9,14 @@ set -u
 INPUT="$(cat)"
 
 HOOK_INPUT="$INPUT" python3 - <<'PY' 2>/dev/null || printf 'fable'
-import json, os, subprocess, time
+import json, os, subprocess, time, sys
+
+# Windows consoles default to cp1252, which can't encode the HUD's emoji/box
+# glyphs; force UTF-8 so the renderer doesn't crash to the bare fallback.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 d = json.loads(os.environ["HOOK_INPUT"])
 model = (d.get("model") or {}).get("display_name") or "?"
