@@ -62,11 +62,11 @@ mkdir -p ~/.claude/fable-mode && echo deep > ~/.claude/fable-mode/level
 
 The injected prompt itself costs ~1,500 tokens per session — it pays for itself in the first avoided file re-read.
 
-## Built-in statusline
+## Built-in statusline: Ripple HUD
 
-A two-line HUD at the bottom of your terminal — level, model, branch, state-loop indicator, session output tokens, cost, duration, lines changed, and the two meters that matter most at a glance: **context window** (with tokens remaining) and **your plan's usage limits** (5-hour and 7-day windows, native from Claude Code for Pro/Max subscribers):
+**Ripple HUD** is a two-line HUD at the bottom of your terminal — level, model, branch, state-loop indicator, session output tokens, cost, duration, lines changed, and the two meters that matter most at a glance: **context window** (with tokens remaining) and **your plan's usage limits** (5-hour and 7-day windows, native from Claude Code for Pro/Max subscribers):
 
-![Fable statusline](assets/statusline.svg)
+![Ripple HUD statusline](assets/statusline.svg)
 
 While a prompt is running, line 2 leads with a live segment: elapsed time, an **estimated time remaining** (`⏳ 1m12s · ~2m left`, or `running long` once past it) and the tool in progress (`▶ Bash: npm test +2`, or `✻ thinking`). The estimate is the median of your recent prompt durations in this project (scaled when a level is pinned) — a guess from history, not real progress, since Claude Code doesn't report how far along a turn is. Line 1 adds a spend rate (`$0.14/m`) and a yellow `●3` uncommitted-file count next to the branch; line 2 adds the prompt-cache hit rate (`cache 92%`, `cold` once the cache expires). A pinned `deep` level is highlighted. The installer sets `refreshInterval: 2` so the clock keeps ticking during long tool calls.
 

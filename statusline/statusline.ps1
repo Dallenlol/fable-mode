@@ -1,5 +1,5 @@
 #!/usr/bin/env pwsh
-# Fable statusline renderer — native Windows / PowerShell edition.
+# Ripple HUD — fable-mode's statusline renderer — native Windows / PowerShell edition.
 # Pure PowerShell (no bash, no python3) so the HUD works without Git Bash.
 # Receives session JSON on stdin, prints the same two-line ANSI HUD as
 # statusline.sh:
@@ -19,7 +19,7 @@ if ($null -eq $d) { [Console]::Out.Write('fable'); exit 0 }
 # Glyphs by code point: keeps this source pure-ASCII so PS 5.1's ANSI-by-default
 # script reader can't corrupt them and no UTF-8 BOM is required.
 $E    = [char]27
-$BOLT = [char]0x26A1  # lightning
+$MARK = [char]0x25C8  # ◈
 $BAR  = [char]0x2502  # box vertical (separator)
 $PEN  = [char]0x270E  # pencil (state)
 $NUL  = [char]0x2205  # empty set
@@ -89,7 +89,7 @@ if (Test-Path $stats) {
 $state_loop = Test-Path (Join-Path $DATA 'state-loop')
 $has_state  = $state_loop -and (Test-Path (Join-Path $cwd '.fable-state.md'))
 $l1 = [System.Collections.Generic.List[string]]::new()
-$l1.Add((C '35;1' "$BOLT Fable") + ' ' + (C '36' $level))
+$l1.Add((C '35;1' "$MARK Ripple HUD") + ' ' + (C '36' $level))
 $l1.Add((C '35' $model))
 if ($state_loop) {
     if ($has_state) { $l1.Add((C '32' "$PEN state")) } else { $l1.Add("${DIM}${PEN} state ${NUL}${RST}") }

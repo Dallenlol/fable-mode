@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.8.1 — 2026-10-20
+
+- **Statusline renamed to Ripple HUD**: the HUD label now reads `◈ Ripple HUD` (bash and PowerShell). The plugin itself is still `fable-mode`; nothing to reinstall.
+
 ## v1.8.0 — 2026-10-20
 
 - **One data folder**: the hooks and `fable-stats` now use `~/.claude/fable-mode/` — the same folder the statusline and the level/state commands use — instead of `$CLAUDE_PLUGIN_DATA`, so the HUD's output-token count and level pin are actually visible. Stats logged by older versions are migrated on the next session end.

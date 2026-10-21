@@ -1,5 +1,5 @@
 #!/bin/bash
-# Fable statusline renderer for Claude Code.
+# Ripple HUD — fable-mode's statusline renderer for Claude Code.
 # Receives session JSON on stdin, prints a two-line ANSI HUD:
 #   line 1: persona/level, model, branch (+dirty count), cost, spend rate, duration, lines changed
 #   line 2: in-flight prompt (elapsed, estimate, current tool) + context meter,
@@ -294,7 +294,7 @@ if flight:
 state_loop = os.path.exists(f"{DATA}/state-loop")
 has_state = state_loop and os.path.exists(os.path.join(cwd, ".fable-state.md"))
 lvl = c("1;97;41", f" {level} ") if level == "deep" else c("36", level)
-l1 = [c("35;1", "⚡ Fable") + " " + lvl, c("35", model)]
+l1 = [c("35;1", "◈ Ripple HUD") + " " + lvl, c("35", model)]
 if state_loop:
     l1.append(c("32", "✎ state") if has_state else f"{DIM}✎ state ∅{RST}")
 if branch:
