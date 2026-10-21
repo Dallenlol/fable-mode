@@ -12,8 +12,14 @@
 set -u
 
 INPUT="$(cat)"
-DATA_DIR="${CLAUDE_PLUGIN_DATA:-$HOME/.claude/fable-mode}"
+# One data dir shared with the statusline and the level/state commands.
+DATA_DIR="$HOME/.claude/fable-mode"
 mkdir -p "$DATA_DIR" 2>/dev/null || exit 0
+# Migrate stats logged by <=1.7 into the plugin data dir.
+OLD="${CLAUDE_PLUGIN_DATA:-}/stats.jsonl"
+if [ -n "${CLAUDE_PLUGIN_DATA:-}" ] && [ -f "$OLD" ] && [ "$OLD" != "$DATA_DIR/stats.jsonl" ]; then
+  cat "$OLD" >> "$DATA_DIR/stats.jsonl" && rm -f "$OLD"
+fi
 
 HOOK_INPUT="$INPUT" STATS_FILE="$DATA_DIR/stats.jsonl" python3 - <<'PY' 2>/dev/null || true
 import json, os, time

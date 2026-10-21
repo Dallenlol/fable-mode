@@ -5,14 +5,14 @@ description: Summarize the token usage fable-mode has logged across sessions —
 
 # fable-mode stats
 
-fable-mode's Stop hook logs one JSON line per session to `stats.jsonl` in the plugin data directory: `$CLAUDE_PLUGIN_DATA/stats.jsonl` if that variable is set, otherwise `~/.claude/fable-mode/stats.jsonl`. Fields: `session`, `ts` (unix), `turns`, `out` (output tokens), `in` (fresh input tokens), `cache_read`, `cache_create`.
+fable-mode's Stop hook logs one JSON line per session to `~/.claude/fable-mode/stats.jsonl`. Fields: `session`, `ts` (unix), `turns`, `out` (output tokens), `in` (fresh input tokens), `cache_read`, `cache_create`.
 
 Summarize it with:
 
 ```bash
 python3 - <<'PY'
 import json, os, time
-path = os.path.expandvars("$CLAUDE_PLUGIN_DATA/stats.jsonl") if os.environ.get("CLAUDE_PLUGIN_DATA") else os.path.expanduser("~/.claude/fable-mode/stats.jsonl")
+path = os.path.expanduser("~/.claude/fable-mode/stats.jsonl")
 if not os.path.exists(path):
     print("no stats logged yet"); raise SystemExit
 rows = [json.loads(l) for l in open(path) if l.strip()]
