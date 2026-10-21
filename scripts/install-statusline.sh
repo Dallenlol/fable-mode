@@ -64,7 +64,9 @@ if existing and tgt not in existing.replace("\\", "/") and not force:
           f"the fable renderer stays available at {tgt}")
     sys.exit(0)
 
-settings["statusLine"] = {"type": "command", "command": command}
+# refreshInterval re-runs the renderer on a timer so the in-flight prompt clock and
+# current-tool segment keep ticking during long tool calls (event updates go quiet then).
+settings["statusLine"] = {"type": "command", "command": command, "refreshInterval": 2}
 if os.path.exists(settings_path):
     import shutil
     shutil.copy2(settings_path, settings_path + ".bak")

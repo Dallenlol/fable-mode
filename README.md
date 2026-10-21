@@ -68,7 +68,9 @@ A two-line HUD at the bottom of your terminal — level, model, branch, state-lo
 
 ![Fable statusline](assets/statusline.svg)
 
-Usage meters turn **yellow at 50%** and red at 80%, with the window's reset time next to them — you know you're halfway through your quota the moment it happens, not when you hit the wall. The context meter turns yellow at 60% and red at 85%: your cue to `/clear` between unrelated tasks. Opt-in install (refuses to clobber an existing statusline without `--force`):
+While a prompt is running, line 2 leads with a live segment: elapsed time, an **estimated time remaining** (`⏳ 1m12s · ~2m left`, or `running long` once past it) and the tool in progress (`▶ Bash: npm test +2`, or `✻ thinking`). The estimate is the median of your recent prompt durations in this project (scaled when a level is pinned) — a guess from history, not real progress, since Claude Code doesn't report how far along a turn is. Line 1 adds a spend rate (`$0.14/m`) and a yellow `●3` uncommitted-file count next to the branch; line 2 adds the prompt-cache hit rate (`cache 92%`, `cold` once the cache expires). A pinned `deep` level is highlighted. The installer sets `refreshInterval: 2` so the clock keeps ticking during long tool calls.
+
+Usage meters turn **yellow at 50%** and red at 80%, with the window's reset time next to them, and a red `⚠ full ~40m` when your current burn rate would exhaust the window before it resets — you know you're halfway through your quota the moment it happens, not when you hit the wall. The context meter turns yellow at 60% and red at 85%: your cue to `/clear` between unrelated tasks. Opt-in install (refuses to clobber an existing statusline without `--force`):
 
 ```bash
 scripts/install-statusline.sh   # see INSTALL.md for the full walkthrough

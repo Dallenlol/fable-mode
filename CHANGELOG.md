@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Statusline: live prompt segment** (bash edition): while a prompt runs, shows elapsed time, an estimated time remaining from the median of recent prompt durations (this session first, then recent sessions in the same project, cached 10 min in `eta-cache.json`; scaled by a pinned level) and the tool in progress with a parallel-call count. Also adds spend rate ($/min), prompt-cache hit rate (native `prompt_cache`, transcript fallback), a projected `⚠ full` warning on the 5h/7d limit meters, an uncommitted-file count beside the branch, and a highlighted `deep` level. The installer now sets `refreshInterval: 2`. Not yet ported to the PowerShell renderer.
 - **Statusline works on native Windows without Git Bash**: added a pure-PowerShell renderer (`statusline/statusline.ps1`) and installer (`scripts/install-statusline.ps1`) — no bash or python3 needed. The installer edits only the `statusLine` key in `settings.json` (surgical string edit, since PowerShell 5.1's `ConvertTo-Json` corrupts the hooks' single-element arrays).
 - **Statusline portability fixes** (bash edition): force UTF-8 stdout so the emoji/box HUD renders on Windows cp1252 consoles instead of falling back to bare `fable`; the installer now wraps the script in the Git Bash exe on Windows (Claude Code launches statusLine via cmd, which can't run a bare `.sh`) and no longer crashes on its own success message. `.gitattributes` pins `*.sh` to LF so CRLF shebangs never reach Unix checkouts.
 

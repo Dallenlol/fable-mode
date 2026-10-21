@@ -26,8 +26,8 @@ Restart the session (or `/clear`). You should see `FABLE MODE ACTIVE` in the ses
 A two-line terminal HUD: level, model, branch, session output tokens, cost, duration — plus a context-window meter and your **plan usage limits** (5-hour and 7-day windows, shown for Pro/Max subscribers) that turn yellow at 50% and red at 80%:
 
 ```
-⚡ Fable auto │ Opus 4.8 │ ⎇ main │ out 12.3k │ $4.12 · 42m │ +310/−42
-ctx █████░░░░░ 58% · 84k left │ 5h ███░░░ 52% ↻ 03:26 │ 7d █░░░░░ 23% ↻ 16:46
+⚡ Fable auto │ Opus 4.8 │ ⎇ main ●3 │ out 12.3k │ $4.12 · 42m · $0.10/m │ +310/−42
+⏳ 36s · ~1m52s left ▶ Bash: npm test +2 │ ctx █████░░░░░ 58% · 84k left │ cache 91% │ 5h ███░░░ 52% ↻ 03:26 │ 7d █░░░░░ 23% ↻ 16:46
 ```
 
 Install it from a clone of this repo (the installer copies the renderer to a stable path, so you can delete the clone afterward).
