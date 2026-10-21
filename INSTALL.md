@@ -45,7 +45,7 @@ git clone https://github.com/Dallenlol/fable-mode
 powershell -NoProfile -ExecutionPolicy Bypass -File fable-mode\scripts\install-statusline.ps1
 ```
 
-Both write the same HUD; pick the one matching your shell. Each refuses to replace an existing statusline unless you pass `--force` (bash) / `-Force` (PowerShell). Uninstall by deleting the `statusLine` key from `~/.claude/settings.json`. Non-default context sizes: set `FABLE_CTX_LIMIT` (only used by the fallback path on older CLIs; new CLIs report window size natively).
+Both write the same HUD; pick the one matching your shell. The bash installer sets `refreshInterval: 2` so the prompt timer ticks during long tool calls; the PowerShell one leaves it off (each refresh starts PowerShell, ~0.5 s of CPU) — opt in with `-RefreshInterval 5`. Each refuses to replace an existing statusline unless you pass `--force` (bash) / `-Force` (PowerShell). Uninstall by deleting the `statusLine` key from `~/.claude/settings.json`. Non-default context sizes: set `FABLE_CTX_LIMIT` (only used by the fallback path on older CLIs; new CLIs report window size natively).
 
 ## 3. Pin an intensity level (optional)
 

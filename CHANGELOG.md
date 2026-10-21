@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.8.3 — 2026-10-20
+
+- **PowerShell Ripple HUD at parity**: `statusline.ps1` now renders the same calm HUD as the bash edition — prompt timer and estimate (sharing `eta-cache.json` with bash), current tool, threshold-only spend/cache/tokens-left/7-day/reset segments, `⚠ full` burn warning, dirty-file count, thin meters. Still Windows PowerShell 5.1 compatible and pure-ASCII source. `install-statusline.ps1` gains an opt-in `-RefreshInterval N`; it stays off by default because each refresh spawns PowerShell (~0.4–0.6 s CPU) versus ~60 ms for bash.
+
 ## v1.8.2 — 2026-10-20
 
 - **Calmer Ripple HUD**: thin `━` meters, `·` separators, no `out`/lines-changed/duration clutter, short tool labels (`▸ Bash npm`) so line 2 no longer truncates. Spend rate, cache rate, tokens-left, the 7-day meter and reset times now appear only when they cross a threshold.
@@ -11,7 +15,7 @@
 ## v1.8.0 — 2026-10-20
 
 - **One data folder**: the hooks and `fable-stats` now use `~/.claude/fable-mode/` — the same folder the statusline and the level/state commands use — instead of `$CLAUDE_PLUGIN_DATA`, so the HUD's output-token count and level pin are actually visible. Stats logged by older versions are migrated on the next session end.
-- **Statusline: live prompt segment** (bash edition): while a prompt runs, shows elapsed time, an estimated time remaining from the median of recent prompt durations (this session first, then recent sessions in the same project, cached 10 min in `eta-cache.json`; scaled by a pinned level) and the tool in progress with a parallel-call count. Also adds spend rate ($/min), prompt-cache hit rate (native `prompt_cache`, transcript fallback), a projected `⚠ full` warning on the 5h/7d limit meters, an uncommitted-file count beside the branch, and a highlighted `deep` level. The installer now sets `refreshInterval: 2`. Not yet ported to the PowerShell renderer.
+- **Statusline: live prompt segment** (bash edition): while a prompt runs, shows elapsed time, an estimated time remaining from the median of recent prompt durations (this session first, then recent sessions in the same project, cached 10 min in `eta-cache.json`; scaled by a pinned level) and the tool in progress with a parallel-call count. Also adds spend rate ($/min), prompt-cache hit rate (native `prompt_cache`, transcript fallback), a projected `⚠ full` warning on the 5h/7d limit meters, an uncommitted-file count beside the branch, and a highlighted `deep` level. The installer now sets `refreshInterval: 2`. (PowerShell renderer caught up in v1.8.3.)
 - **Statusline works on native Windows without Git Bash**: added a pure-PowerShell renderer (`statusline/statusline.ps1`) and installer (`scripts/install-statusline.ps1`) — no bash or python3 needed. The installer edits only the `statusLine` key in `settings.json` (surgical string edit, since PowerShell 5.1's `ConvertTo-Json` corrupts the hooks' single-element arrays).
 - **Statusline portability fixes** (bash edition): force UTF-8 stdout so the emoji/box HUD renders on Windows cp1252 consoles instead of falling back to bare `fable`; the installer now wraps the script in the Git Bash exe on Windows (Claude Code launches statusLine via cmd, which can't run a bare `.sh`) and no longer crashes on its own success message. `.gitattributes` pins `*.sh` to LF so CRLF shebangs never reach Unix checkouts.
 

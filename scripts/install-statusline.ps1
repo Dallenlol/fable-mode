@@ -7,9 +7,14 @@
 # is avoided on purpose: Windows PowerShell 5.1's ConvertTo-Json collapses
 # single-element arrays (which settings.json uses throughout its hooks) and would
 # corrupt the file.
+#
+# -RefreshInterval N (seconds) re-runs the HUD on a timer so the prompt clock
+# ticks during long tool calls. Off by default here: every refresh spawns a
+# PowerShell process (~0.4-0.6 s of CPU each), unlike the ~60 ms bash renderer.
 [CmdletBinding()]
 param(
     [switch]$Force,
+    [int]$RefreshInterval = 0,
     [string]$DataDir = (Join-Path $HOME '.claude/fable-mode'),
     [string]$SettingsPath = (Join-Path $HOME '.claude/settings.json')
 )
@@ -29,7 +34,9 @@ $psExe = if (Get-Command powershell.exe -ErrorAction SilentlyContinue) { 'powers
          else { 'powershell.exe' }
 $targetWin = ($target -replace '/', '\')
 $command = "$psExe -NoProfile -ExecutionPolicy Bypass -File `"$targetWin`""
-$slJson = [ordered]@{ type = 'command'; command = $command } | ConvertTo-Json -Compress
+$sl = [ordered]@{ type = 'command'; command = $command }
+if ($RefreshInterval -gt 0) { $sl['refreshInterval'] = $RefreshInterval }
+$slJson = $sl | ConvertTo-Json -Compress
 
 # Read current statusline (read-only parse; never re-serialized).
 $raw = ''
