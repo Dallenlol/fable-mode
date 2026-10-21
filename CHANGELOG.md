@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.8.2 — 2026-10-20
+
+- **Calmer Ripple HUD**: thin `━` meters, `·` separators, no `out`/lines-changed/duration clutter, short tool labels (`▸ Bash npm`) so line 2 no longer truncates. Spend rate, cache rate, tokens-left, the 7-day meter and reset times now appear only when they cross a threshold.
+
 ## v1.8.1 — 2026-10-20
 
 - **Statusline renamed to Ripple HUD**: the HUD label now reads `◈ Ripple HUD` (bash and PowerShell). The plugin itself is still `fable-mode`; nothing to reinstall.

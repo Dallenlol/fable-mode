@@ -35,13 +35,13 @@ now = time.time()
 DATA = os.path.expanduser("~/.claude/fable-mode")
 DIM, RST = "\033[2m", "\033[0m"
 def c(code, s): return f"\033[{code}m{s}{RST}"
-SEP = f" {DIM}│{RST} "
+SEP = f"  {DIM}·{RST}  "
 
-def meter(pct, width=10, warn=50, crit=80):
+def meter(pct, width=8, warn=50, crit=80):
     pct = max(0, min(100, round(pct)))
     color = "32" if pct < warn else ("33" if pct < crit else "31")
-    filled = min(width, pct * width // 100)
-    return c(color, "█" * filled) + c("2", "░" * (width - filled)), c(color, f"{pct}%")
+    filled = max(1 if pct else 0, min(width, round(pct * width / 100)))
+    return c(color, "━" * filled) + c("2;90", "━" * (width - filled)), c(color, f"{pct}%")
 
 def k(n):
     return f"{n / 1000:.1f}k" if n < 1_000_000 else f"{n / 1_000_000:.2f}M"
@@ -150,19 +150,6 @@ try:
 except Exception:
     pass
 
-# session cumulative output tokens (from the fable-mode stats log)
-out_tok = None
-try:
-    for line in open(f"{DATA}/stats.jsonl"):
-        try:
-            r = json.loads(line)
-        except Exception:
-            continue
-        if r.get("session") == sid:
-            out_tok = r.get("out")
-except Exception:
-    pass
-
 # transcript tail: shared by the in-flight detector, activity, cache fallback, context fallback
 recs = []
 try:
@@ -244,8 +231,11 @@ def short_tool(block):
         detail = inp.get("description") or ""
     elif name == "Skill":
         detail = inp.get("skill") or ""
-    s = f"{name}: {detail}" if detail else name
-    return s if len(s) <= 32 else s[:31] + "…"
+    if name == "Bash" and detail:
+        detail = detail.split()[0].split("/")[-1]  # just the program: git, npm, pytest
+    if len(detail) > 18:
+        detail = detail[:17] + "…"
+    return f"{name} {c('2', detail)}" if detail else name
 
 def activity(after):
     # Parallel tool calls arrive as separate assistant records sharing one message id.
@@ -265,7 +255,7 @@ def activity(after):
     pending = [b for b in calls if b.get("id") not in results]
     if not pending:
         return c("2", "✻ thinking")
-    seg = c("36", "▶ " + short_tool(pending[-1]))
+    seg = c("36", "▸ ") + short_tool(pending[-1])
     if len(pending) > 1:
         seg += c("2", f" +{len(pending) - 1}")
     return seg
@@ -274,57 +264,51 @@ flight_seg = None
 if flight:
     try:
         el = flight["elapsed"]
-        seg = c("33;1", f"⏳ {dur(el)}")
+        seg = c("33", f"⏳ {dur(el)}")
         try:
             est = estimate()
             if est:
                 left = est - el
-                seg += f" {DIM}·{RST} " + (c("2", f"~{dur(left)} left") if left > 0 else c("33", "running long"))
+                seg += " " + (c("2", f"~{dur(left)} left") if left > 0 else c("33", "running long"))
         except Exception:
             pass
         try:
-            seg += " " + activity(flight["after"])
+            seg += "   " + activity(flight["after"])
         except Exception:
             pass
         flight_seg = seg
     except Exception:
         flight_seg = None
 
-# ---- line 1: identity ----
+# ---- line 1: identity (calm: only what you glance at) ----
 state_loop = os.path.exists(f"{DATA}/state-loop")
 has_state = state_loop and os.path.exists(os.path.join(cwd, ".fable-state.md"))
-lvl = c("1;97;41", f" {level} ") if level == "deep" else c("36", level)
-l1 = [c("35;1", "◈ Ripple HUD") + " " + lvl, c("35", model)]
+first = c("35;1", "◈ Ripple HUD")
+if level == "deep":
+    first += " " + c("1;97;41", " deep ")
+elif level != "auto":
+    first += " " + c("2", level)
+l1 = [first, model]
 if state_loop:
     l1.append(c("32", "✎ state") if has_state else f"{DIM}✎ state ∅{RST}")
 if branch:
-    seg = c("34", f"⎇ {branch}")
-    if dirty:
-        seg += " " + c("33", f"●{dirty}")
-    l1.append(seg)
-if out_tok is not None:
-    l1.append(f"{DIM}out{RST} {c('36', k(out_tok))}")
+    l1.append(c("34", branch) + (" " + c("33", f"●{dirty}") if dirty else ""))
 usd = cost.get("total_cost_usd")
 mins = (cost.get("total_duration_ms") or 0) // 60000
 if usd is not None:
-    seg = f"{c('33', f'${usd:.2f}')} {DIM}· {mins}m{RST}"
-    if mins >= 1 and usd > 0:
+    seg = c("33", f"${usd:.2f}")
+    if mins >= 1 and usd / mins >= 0.25:  # spend rate only when it's worth noticing
         rate = usd / mins
-        seg += f" {DIM}·{RST} " + c("31" if rate >= 1 else ("33" if rate >= 0.25 else "2"), f"${rate:.2f}/m")
+        seg += " " + c("31" if rate >= 1 else "33", f"${rate:.2f}/m")
     l1.append(seg)
-elif mins:
-    l1.append(f"{DIM}{mins}m{RST}")
-la, lr = cost.get("total_lines_added"), cost.get("total_lines_removed")
-if la or lr:
-    l1.append(c("32", f"+{la or 0}") + c("31", f"/−{lr or 0}"))
 
-# ---- line 2: live prompt + context + cache + usage limits ----
+# ---- line 2: live prompt, then meters (each appears only when it says something) ----
 l2 = []
 if flight_seg:
     l2.append(flight_seg)
 
 # context: official fields first, transcript-tail fallback for older versions
-ctx_pct, ctx_left = cw.get("used_percentage"), None
+ctx_pct = cw.get("used_percentage")
 size = int(os.environ.get("FABLE_CTX_LIMIT", 0)) or cw.get("context_window_size") or 200000
 if ctx_pct is None:
     for kind, rec in reversed(recs):
@@ -335,14 +319,15 @@ if ctx_pct is None:
             ctx_pct = 100 * used / size
             break
 if ctx_pct is not None:
-    ctx_left = k(max(0, round(size * (1 - ctx_pct / 100))))
     bar, pct_s = meter(ctx_pct, warn=60, crit=85)
-    seg = f"{DIM}ctx{RST} {bar} {pct_s} {DIM}· {ctx_left} left{RST}"
+    seg = f"{DIM}ctx{RST} {bar} {pct_s}"
+    if ctx_pct >= 60:
+        seg += f" {DIM}{k(max(0, round(size * (1 - ctx_pct / 100))))} left{RST}"
     if has_state and ctx_pct >= 40:
-        seg += " " + c("33", "⟳ clear-worthy")
+        seg += " " + c("33", "⟳ /clear")
     l2.append(seg)
 
-# cache hit rate: native prompt_cache first, transcript usage fallback
+# cache hit rate: hidden while healthy (>=80% and warm)
 try:
     hr = pc.get("hit_ratio")
     if hr is None:
@@ -357,34 +342,33 @@ try:
                 wr += u.get("cache_creation_input_tokens", 0)
                 fresh += u.get("input_tokens", 0)
         hr = rd / (rd + wr + fresh) if rd + wr + fresh else None
-    if hr is not None:
+    cold = pc.get("caching_observed") and pc.get("warm") is False
+    if hr is not None and (hr < 0.8 or cold):
         p = round(hr * 100)
-        seg = f"{DIM}cache{RST} " + c("32" if p >= 80 else ("33" if p >= 50 else "31"), f"{p}%")
-        if pc.get("caching_observed") and pc.get("warm") is False:
-            seg += " " + c("33", "cold")
-        l2.append(seg)
+        l2.append(f"{DIM}cache{RST} " + c("33" if p >= 50 else "31", f"{p}%") + (" " + c("33", "cold") if cold else ""))
 except Exception:
     pass
 
-# usage limits (Pro/Max): warn at 50% per the plugin's design, and flag a window
-# whose current burn rate would exhaust it before it resets
+# usage limits (Pro/Max): 5h always, 7d from 50%; reset time from 50%;
+# warn when the current burn rate would exhaust the window before it resets
 WINDOW_SECS = {"five_hour": 5 * 3600, "seven_day": 7 * 86400}
 def window(wname, label):
     w = rl.get(wname) or {}
     pct = w.get("used_percentage")
-    if pct is None:
+    if pct is None or (wname == "seven_day" and pct < 50):
         return None
     bar, pct_s = meter(pct, width=6, warn=50, crit=80)
     seg = f"{DIM}{label}{RST} {bar} {pct_s}"
     resets = w.get("resets_at")
     if resets:
-        seg += f" {DIM}↻ {time.strftime('%H:%M', time.localtime(resets))}{RST}"
+        if pct >= 50:
+            seg += f" {DIM}↻{time.strftime('%H:%M', time.localtime(resets))}{RST}"
         try:
             spent = now - (resets - WINDOW_SECS[wname])
             if pct >= 10 and spent > 600 and pct < 100:
                 to_full = (100 - pct) * spent / pct
                 if now + to_full < resets:
-                    seg += " " + c("31;1", f"⚠ full ~{dur(to_full)}")
+                    seg += " " + c("31", f"⚠ full ~{dur(to_full)}")
         except Exception:
             pass
     return seg
